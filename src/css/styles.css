@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+canvas {
+    border: 1px solid gray;
+    margin: 100px auto;
+    display: block;
+}

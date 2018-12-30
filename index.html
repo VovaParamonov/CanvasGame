@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="src/css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="src/index.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <canvas id='example'>Обновите браузер</canvas>
+    <script>
+        var example = document.getElementById("example"),
+            ctx     = example.getContext('2d');
+        example.width  = 640;
+        example.height = 480;
+        ctx.strokeRect((example.width/2)-266/2, 15, 266, 266);
+        ctx.strokeRect((example.width/2)-266/2+3, 18, 260, 260);
+        ctx.fillRect((example.width/2)-266/2+5, 20, 256, 256);
+        for (i = 0; i < 8; i += 2)
+            for (j = 0; j < 8; j += 2) {
+                ctx.clearRect((example.width/2)-266/2+5 + i * 32, 20 + j * 32, 32, 32);
+                ctx.clearRect((example.width/2)-266/2+5 + (i + 1) * 32, 20 + (j + 1) * 32, 32, 32);
+            }
+    </script>
+</body>
+</html>
