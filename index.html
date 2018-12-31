@@ -11,20 +11,7 @@
     <title>Document</title>
 </head>
 <body>
-    <canvas id='example'>Обновите браузер</canvas>
-    <script>
-        var example = document.getElementById("example"),
-            ctx     = example.getContext('2d');
-        example.width  = 640;
-        example.height = 480;
-        ctx.strokeRect((example.width/2)-266/2, 15, 266, 266);
-        ctx.strokeRect((example.width/2)-266/2+3, 18, 260, 260);
-        ctx.fillRect((example.width/2)-266/2+5, 20, 256, 256);
-        for (i = 0; i < 8; i += 2)
-            for (j = 0; j < 8; j += 2) {
-                ctx.clearRect((example.width/2)-266/2+5 + i * 32, 20 + j * 32, 32, 32);
-                ctx.clearRect((example.width/2)-266/2+5 + (i + 1) * 32, 20 + (j + 1) * 32, 32, 32);
-            }
-    </script>
+    <canvas id='canvas' width="640px" height="480px">Обновите браузер</canvas>
+    <script src="src/index.js" type="text/javascript"></script>
 </body>
 </html>
