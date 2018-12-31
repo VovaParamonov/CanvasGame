@@ -166,13 +166,6 @@ var game = {
                     game.gameOver();
                 }, 1000);
             }
-
-            // if (this.speedY < 0){
-            //     this.speedY -= 1;
-            // } else if (speedY > 0){
-            //     this.speedY += 1;
-            // }
-
         }
         //============================================================
     },
@@ -207,7 +200,6 @@ var game = {
             }
         }
 
-
         for(let i = 0; i <= this.round.cols; i++){
             for (let j = 0; j <= this.round.rows; j++){
                 this.round.blocks["block"+i+""+j] = new GameObject("block", 100+90*i, 50+40*j, game.sprites.block, 85, 37);
@@ -215,7 +207,6 @@ var game = {
                 //eval("this.round.blocks.block"+i+""+j+" = new GameObject('block"+i+""+j+"', 90*"+i+", 40*"+j+", game.sprites.block, 85, 40);");
             }
         }
-
         this.round.walls["left"] = new GameObject("wall", 0, 0, '', 0, this.canvasHeight);
         this.round.walls["top"] = new GameObject("wall", 0, 0, '', game.canvasWidth, 0);
         this.round.walls["right"] = new GameObject("wall", game.canvasWidth, 0, '', 0, game.canvasHeight);
@@ -275,8 +266,6 @@ var game = {
             }
         }
         //==============================================================================================================
-
-
         if (this.objects.platform.speed_now < 0 && this.objects.platform.x >= 2){
             this.objects.platform.move();
         } else if (this.objects.platform.speed_now > 0 && this.objects.platform.x < this.canvasWidth-this.objects.platform.width-1){
@@ -286,8 +275,6 @@ var game = {
         if (this.objects.ball.speedX != 0 || this.objects.ball.speedY != 0) {
             this.objects.ball.move();
         }
-
-
     },
     run: function(){
         this.update();
@@ -300,7 +287,6 @@ var game = {
         this.roundCreate();
     }
 };
-
 
 window.addEventListener("load", function(){
 
