@@ -16,8 +16,8 @@ var game = {
     },
     objects: {},
     round: {
-        cols: 6,
-        rows: 5,
+        cols: 4,
+        rows: 4,
         blocks: {},
         wals: {"left" : {}, "right": {}, "top": {}, "bottom": {}}
 
@@ -38,7 +38,7 @@ var game = {
                 this.live = true;
             }
         }
-        this.objects.platform = new GameObject("platform", game.canvasWidth/2-82, game.canvasHeight - 35, game.sprites.platform, 165, 25);
+        this.objects.platform = new GameObject("platform", game.canvasWidth/2-82, game.canvasHeight - 35, game.sprites.platform, 165, 45);
         this.objects.platform.speed_now = 0;
         this.objects.platform.move = function(){
           this.x += this.speed_now;
@@ -103,13 +103,13 @@ var game = {
                 ball_top_y < elem_bottom_y
             ) {
                 if (side == "top"){
-                    if (ball_right_x-elem_left_x > ball_bottom_y - elem_top_y){
+                    if (Math.abs(ball_right_x-elem_left_x) > Math.abs(ball_bottom_y - elem_top_y)){
                         side = "top";
                     } else {
                         side = "left";
                     }
-                } else if (side == "bottom") {
-                    if (ball_right_x-elem_left_x > ball_top_y - elem_bottom_y) {
+                } else if (side == "bottom") {//-----?????????????????????????????????????????
+                    if (Math.abs(ball_right_x-elem_left_x) > Math.abs(ball_top_y - elem_bottom_y)) {
                         side = "bottom";
                     } else {
                         side = "left";
@@ -117,7 +117,6 @@ var game = {
                 } else {
                     side = "left";
                 }
-
             } else if ( //------------------------Правая сторона-----------------
                 ball_right_x > elem_right_x &&
                 ball_left_x < elem_right_x &&
@@ -125,13 +124,13 @@ var game = {
                 ball_top_y < elem_bottom_y
             ) {
                 if (side == "top"){
-                    if (elem_right_x-ball_left_x > ball_bottom_y - elem_top_y){
+                    if (Math.abs(elem_right_x-ball_left_x) > Math.abs(ball_bottom_y - elem_top_y)){
                         side = "top";
                     } else {
                         side = "right";
                     }
                 } else if (side == "bottom") {
-                    if (elem_right_x-ball_left_x > ball_top_y - elem_bottom_y) {
+                    if (Math.abs(elem_right_x-ball_left_x) > Math.abs(ball_top_y - elem_bottom_y)) {
                         side = "bottom";
                     } else {
                         side = "right";
@@ -140,7 +139,6 @@ var game = {
                     side = "right";
                 }
             }
-
             return side;
         };
         this.objects.ball.bumpBlock = function (elem, side) {
@@ -211,7 +209,7 @@ var game = {
 
         for(let i = 0; i <= this.round.cols; i++){
             for (let j = 0; j <= this.round.rows; j++){
-                this.round.blocks["block"+i+""+j] = new GameObject("block", 10+90*i, 10+40*j, game.sprites.block, 85, 37);
+                this.round.blocks["block"+i+""+j] = new GameObject("block", 100+90*i, 50+40*j, game.sprites.block, 85, 37);
                 //----------------Костыль обыкновенный-------------------------
                 //eval("this.round.blocks.block"+i+""+j+" = new GameObject('block"+i+""+j+"', 90*"+i+", 40*"+j+", game.sprites.block, 85, 40);");
             }
@@ -237,11 +235,6 @@ var game = {
                 this.ctx.drawImage(this.round.blocks[id].sprite, this.round.blocks[id].x, this.round.blocks[id].y);
             }
         }
-
-
-        //this.ctx.drawImage(this.objects.platform.sprite, this.objects.platform.x, this.objects.platform.y);
-        //this.ctx.drawImage(this.objects.ball.sprite, this.objects.ball.x, this.objects.ball.y);
-
 
         for (let id in this.objects){
             if (this.objects[id].live){
