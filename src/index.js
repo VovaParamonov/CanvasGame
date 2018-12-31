@@ -1,8 +1,3 @@
-function kill(obj){ //----------Функция для "Убийства" игрового оюъекта [он не отображается]
-    obj.live = false;
-}
-
-//-------------------------------GlobalVariables----------------------
 var game = {
     canvasWidth: 640,
     canvasHeight: 480,
@@ -19,8 +14,7 @@ var game = {
         cols: 4,
         rows: 4,
         blocks: {},
-        wals: {"left" : {}, "right": {}, "top": {}, "bottom": {}}
-
+        walls: {"left" : {}, "right": {}, "top": {}, "bottom": {}}
     },
     init: function() {
         var canvas = document.getElementById("canvas");
@@ -57,7 +51,6 @@ var game = {
         };
         this.objects.platform.ball = this.objects.ball;
 
-        //this.objects.block = new GameObject("block", 0, 0, game.sprites.block);
         this.objects.ball = new GameObject("ball", (game.canvasWidth/2)-12, game.canvasHeight-60, game.sprites.ball, 25, 25);
         this.objects.ball.speedX = 0;
         this.objects.ball.speedY = 0;
@@ -65,7 +58,8 @@ var game = {
             this.x += this.speedX;
             this.y += this.speedY;
         };
-        this.objects.ball.maxSpeedX = 4;
+        this.objects.ball.maxSpeedX = 3;
+        this.objects.ball.maxSpeedY = 3;
         this.objects.ball.collide = function (elem) {
             let ball_left_x = this.x + this.speedX;
             let ball_top_y = this.y + this.speedY;
@@ -102,13 +96,13 @@ var game = {
                 ball_bottom_y > elem_top_y &&
                 ball_top_y < elem_bottom_y
             ) {
-                if (side == "top"){
+                if (side == "top"){//-------Спор left/top
                     if (Math.abs(ball_right_x-elem_left_x) > Math.abs(ball_bottom_y - elem_top_y)){
                         side = "top";
                     } else {
                         side = "left";
                     }
-                } else if (side == "bottom") {//-----?????????????????????????????????????????
+                } else if (side == "bottom") {//--------Спор left/bottom
                     if (Math.abs(ball_right_x-elem_left_x) > Math.abs(ball_top_y - elem_bottom_y)) {
                         side = "bottom";
                     } else {
@@ -123,13 +117,13 @@ var game = {
                 ball_bottom_y > elem_top_y &&
                 ball_top_y < elem_bottom_y
             ) {
-                if (side == "top"){
+                if (side == "top"){//----------------Спор right/top
                     if (Math.abs(elem_right_x-ball_left_x) > Math.abs(ball_bottom_y - elem_top_y)){
                         side = "top";
                     } else {
                         side = "right";
                     }
-                } else if (side == "bottom") {
+                } else if (side == "bottom") {//------------------Спор right/bottom
                     if (Math.abs(elem_right_x-ball_left_x) > Math.abs(ball_top_y - elem_bottom_y)) {
                         side = "bottom";
                     } else {
@@ -172,6 +166,13 @@ var game = {
                     game.gameOver();
                 }, 1000);
             }
+
+            // if (this.speedY < 0){
+            //     this.speedY -= 1;
+            // } else if (speedY > 0){
+            //     this.speedY += 1;
+            // }
+
         }
         //============================================================
     },
@@ -210,15 +211,15 @@ var game = {
         for(let i = 0; i <= this.round.cols; i++){
             for (let j = 0; j <= this.round.rows; j++){
                 this.round.blocks["block"+i+""+j] = new GameObject("block", 100+90*i, 50+40*j, game.sprites.block, 85, 37);
-                //----------------Костыль обыкновенный-------------------------
+                //----------------------------------------------------V---Костыль обыкновенный---V------------------------------------------------
                 //eval("this.round.blocks.block"+i+""+j+" = new GameObject('block"+i+""+j+"', 90*"+i+", 40*"+j+", game.sprites.block, 85, 40);");
             }
         }
 
-        this.round.wals["left"] = new GameObject("wall", 0, 0, '', 0, this.canvasHeight);
-        this.round.wals["top"] = new GameObject("wall", 0, 0, '', game.canvasWidth, 0);
-        this.round.wals["right"] = new GameObject("wall", game.canvasWidth, 0, '', 0, game.canvasHeight);
-        this.round.wals["bot"] = new GameObject("pit", 0, this.canvasHeight, '', game.canvasWidth, 0);
+        this.round.walls["left"] = new GameObject("wall", 0, 0, '', 0, this.canvasHeight);
+        this.round.walls["top"] = new GameObject("wall", 0, 0, '', game.canvasWidth, 0);
+        this.round.walls["right"] = new GameObject("wall", game.canvasWidth, 0, '', 0, game.canvasHeight);
+        this.round.walls["bot"] = new GameObject("pit", 0, this.canvasHeight, '', game.canvasWidth, 0);
     },
     start: function(){
         this.load();
@@ -254,9 +255,9 @@ var game = {
         if(this.objects.ball.collide(this.objects.platform)){
             this.objects.ball.bumpBlock(this.objects.platform, this.objects.ball.collide(this.objects.platform));
         }
-        for(let id in this.round.wals){
-            if(this.objects.ball.collide(this.round.wals[id])){
-                this.objects.ball.bumpBlock(this.round.wals[id], this.objects.ball.collide(this.round.wals[id]));
+        for(let id in this.round.walls){
+            if(this.objects.ball.collide(this.round.walls[id])){
+                this.objects.ball.bumpBlock(this.round.walls[id], this.objects.ball.collide(this.round.walls[id]));
             }
         }
         if (Math.abs(this.objects.ball.speedX) > this.objects.ball.maxSpeedX){
