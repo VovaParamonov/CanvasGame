@@ -10,15 +10,33 @@ var game = {
         ball: undefined
     },
     objects: {},
+    menuObjects: {"start": { width: 70, height: 40, href: function(){game.start()}}, "options": {width: 120, height: 40, href: ()=>(game.start()) }, "records": {width: 120, height: 40, href: ()=>(game.start())}},
     round: {
         cols: 4,
         rows: 4,
         blocks: {},
         walls: {"left" : {}, "right": {}, "top": {}, "bottom": {}}
     },
+    menu: function() {
+        var canvas = document.getElementById("canvas");
+        this.ctx = canvas.getContext("2d");
+        //-----------------Настройки текста----------------------------
+        this.ctx.fillStyle = "#00F";
+        this.ctx.font = "italic 30pt Arial";
+        //=============================================================
+        let counter = 0;
+        for (let id in this.menuObjects){
+            this.menuObjects[id].x = this.canvasWidth/2-this.menuObjects[id].width/2;
+            this.menuObjects[id].y = 100+50*counter;
+            this.ctx.fillText(id, this.menuObjects[id].x, this.menuObjects[id].y);
+
+            counter++;
+        }
+    },
     init: function() {
         var canvas = document.getElementById("canvas");
         this.ctx = canvas.getContext("2d");
+
 
         //----------------------Объявление игровых объектов-----------
         class GameObject { //----Класс игрового объекта-----------
@@ -312,5 +330,26 @@ $(document).keyup(function(eventObject){
     } else if ( eventObject.which == '39' && game.objects.platform.speed_now > 0){
         game.objects.platform.speed_now = 0;
     }
+});
+$('canvas').click(function(eventObj){
+    //console.log("x:"+eventObj.pageX + "\ny:"+ eventObj.pageY);
+    //----------------------Проверить на что клинул-----------------------------
+    let cursorX = eventObj.pageX;
+    let cursorY = eventObj.pageY;
+    for (let id in game.menuObjects){
+        let elem_left_x = game.menuObjects[id].x;
+        let elem_top_y = game.menuObjects[id].y;
+        let elem_right_x = game.menuObjects[id].x + game.menuObjects[id].width;
+        let elem_bottom_y = game.menuObjects[id].y + game.menuObjects[id].height;
 
+        if (
+            cursorX > elem_left_x &&
+            cursorX < elem_right_x &&
+            cursorY > elem_top_y &&
+            cursorY < elem_bottom_y
+        ) {
+            //game.menuObjects[id].href();
+            console.log(id);
+        }
+    }
 });
