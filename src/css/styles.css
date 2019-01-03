@@ -9,6 +9,23 @@ div {
 
 canvas {
     border: 1px solid gray;
-    margin: 100px auto;
+    margin: 0 auto;
     display: block;
+}
+
+.tapWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 640px;
+    margin: 20px auto;
+}
+
+.tap {
+    box-shadow: 1.5px 1.5px 5px #4b0403;
+    display: block;
+    width: 315px;
+    height: 150px;
+    background-color: #cd413e;
+    border: 1.5px solid brown;
+
 }
