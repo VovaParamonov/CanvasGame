@@ -1,5 +1,5 @@
 //-------------------------------Init classes--------------------------
-var Objects = class Objects {
+class Objects {
     constructor(name, x, y, sprite, width, height) {
         this.name = name;
         this.x = x;
@@ -14,12 +14,12 @@ var Objects = class Objects {
         game.ctx.drawImage(this.sprite, this.x, this.y);
     }
 }
-var GameObjects = class GameObjects extends Objects {
+class GameObjects extends Objects {
     constructor(name, x, y, sprite, width, height) {
         super(name, x, y, sprite, width, height)
     }
 }
-var block = class block extends GameObjects {
+class Block extends GameObjects {
     constructor(blockColID, blockRowID, sprite) {
         super("block", 100 + 90 * blockColID, 50 + 40 * blockRowID, sprite, 85, 37);
         this.colID = blockColID;
@@ -27,12 +27,12 @@ var block = class block extends GameObjects {
     }
 }
 
-var wall = class wall extends Objects {
+class Wall extends Objects {
     constructor(name, x, y, width, height) {
         super(name, x, y, '', width, height)
     }
 }
-var platform = class platform extends GameObjects {
+class Platform extends GameObjects {
     constructor(sprite, ball_Object) {
         super("platform", game.canvasWidth / 2 - 82, game.canvasHeight - 35, sprite, 165, 45,)
         this.speed_now = 0;
@@ -57,7 +57,7 @@ var platform = class platform extends GameObjects {
     };
 };
 
-var ball = class ball extends GameObjects {
+class Ball extends GameObjects {
     constructor(sprite) {
         super("ball", (game.canvasWidth / 2) - 12, game.canvasHeight - 60, sprite, 25, 25);
         this.speedX = 0;
@@ -196,7 +196,7 @@ var ball = class ball extends GameObjects {
     }
 };
 
-var gameClass = class GameClass {
+class GameClass {
     constructor() {
         this.canvasWidth = 640;
         this.canvasHeight = 480;
@@ -246,8 +246,8 @@ var gameClass = class GameClass {
 
 
             //----------------------init game objects-----------
-            this.objects.platform = new platform(game.sprites.platform, this.objects.ball);
-            this.objects.ball = new ball(game.sprites.ball);
+            this.objects.platform = new Platform(game.sprites.platform, this.objects.ball);
+            this.objects.ball = new Ball(game.sprites.ball);
             //============================================================
         };
         this.load = function () {
@@ -272,14 +272,14 @@ var gameClass = class GameClass {
 
             for (let i = 0; i <= this.round.cols; i++) {
                 for (let j = 0; j <= this.round.rows; j++) {
-                    this.round.blocks["block" + i + "" + j] = new block(i, j, game.sprites.block);
+                    this.round.blocks["block" + i + "" + j] = new Block(i, j, game.sprites.block);
                 }
             }
 
-            this.round.walls["left"] = new wall("left", 0, 0, 0, this.canvasHeight);
-            this.round.walls["top"] = new wall("top", 0, 0, game.canvasWidth, 0);
-            this.round.walls["right"] = new wall("right", game.canvasWidth, 0, 0, game.canvasHeight);
-            this.round.walls["bot"] = new wall("pit", 0, this.canvasHeight, game.canvasWidth, 0);
+            this.round.walls["left"] = new Wall("left", 0, 0, 0, this.canvasHeight);
+            this.round.walls["top"] = new Wall("top", 0, 0, game.canvasWidth, 0);
+            this.round.walls["right"] = new Wall("right", game.canvasWidth, 0, 0, game.canvasHeight);
+            this.round.walls["bot"] = new Wall("pit", 0, this.canvasHeight, game.canvasWidth, 0);
         };
         this.start = function () {
             this.load();
@@ -344,7 +344,7 @@ var gameClass = class GameClass {
     }
 };
 //============================================================================================
-var game = new gameClass();
+var game = new GameClass();
 //-----------------------------------------------------------add events-----------------------
 $(function () {
     $(document).keydown(function (eventObject) {
