@@ -1,5 +1,5 @@
 //-------------------------------Init classes--------------------------
-var Objects = class Objects {
+v   ar Objects = class Objects {
     constructor(name, x, y, sprite, width, height) {
         this.name = name;
         this.x = x;
